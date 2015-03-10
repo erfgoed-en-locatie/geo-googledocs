@@ -22,19 +22,20 @@ var geocoders = {
         }
       }
     },
-    mapquest: {
+    nominatim: {
       query: function(query, key) {
-        return 'http://open.mapquestapi.com/nominatim/v1/search?format=json&limit=1&q=' + query;
+        return 'http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + query;
       },
       parse: function(r) {
         try {
           return {
             longitude: r[0].lon,
             latitude: r[0].lat,
-            accuracy: r[0].type
+            accuracy: r[0].type,
+            id: r[0].place_id
           }
         } catch(e) {
-          return { longitude: '', latitude: '', accuracy: '' };
+          return { longitude: '', latitude: '', accuracy: '', id: '' };
         }
       }
     },
@@ -230,7 +231,7 @@ function gcDialog() {
   grid.setWidget(0, 1, app.createListBox()
     .setName('apiBox')
     .setId('apiBox')
-    .addItem('mapquest')
+    .addItem('nominatim')
     .addItem('yahoo')
     .addItem('cicero'));
   grid.setWidget(1, 0, app.createLabel('API key:'));
@@ -289,7 +290,8 @@ function geocode(e) {
   if (res.long >= 0 && res.lat  >= 0 && res.acc >= 0) {
     var longCol = (res.long+1),
         latCol = (res.lat+1),
-        accCol = (res.acc+1);  
+        accCol = (res.acc+1),
+        idCol = (res.id+1);  
   } else {
    // Add new columns
     sheet.insertColumnsAfter(lastCol, 3);
@@ -298,11 +300,13 @@ function geocode(e) {
     sheet.getRange(1, lastCol + 1, 1, 1).setValue('geo_longitude');
     sheet.getRange(1, lastCol + 2, 1, 1).setValue('geo_latitude');
     sheet.getRange(1, lastCol + 3, 1, 1).setValue('geo_accuracy');
+    sheet.getRange(1, lastCol + 4, 1, 1).setValue('geo_id');
  
     // Set destination columns
     var longCol = (lastCol + 1),
         latCol = (lastCol + 2),
-        accCol = (lastCol + 3);
+        accCol = (lastCol + 3),
+        idCol = (lastCol + 4);
   }
 
   // Don't geocode the first row!
@@ -333,6 +337,7 @@ function geocode(e) {
         sheet.getRange(i + topRow, longCol, 1, 1).setValue(response.longitude);
         sheet.getRange(i + topRow, latCol, 1, 1).setValue(response.latitude);
         sheet.getRange(i + topRow, accCol, 1, 1).setValue(response.accuracy);
+        sheet.getRange(i + topRow, idCol, 1, 1).setValue(response.id);
       } catch(e) {
         Logger.log(e);
       }
@@ -352,7 +357,8 @@ function getDestCols() {
   var output = {
     'long': include(headers,'geo_longitude'),
     'lat': include(headers,'geo_latitude'),
-    'acc': include(headers,'geo_accuracy')
+    'acc': include(headers,'geo_accuracy'),
+    'id': include(headers,'geo_id')
   };
   
   Logger.log(output.long);
