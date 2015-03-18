@@ -1,3 +1,9 @@
+/*
+ * Google sheets app for geocoding places
+ * Based on https://github.com/mapbox/geo-googledocs/
+ * But altered to include Histograph to geocode historic places
+ */
+
 // Global variables
 var ss = SpreadsheetApp.getActiveSpreadsheet(),
     sheet = ss.getActiveSheet(),
@@ -22,17 +28,35 @@ var geocoders = {
         }
       }
     },
-    nominatim: {
+    histograph: {
+        query: function(query) {
+          return 'http://api.histograph.io/search?name=' + query;
+      },
+      parse: function(r) {
+        try {
+          return {
+            longitude: '0',
+            latitude: '0',
+            accuracy: r.features[0].properties.type,
+            id: r.features[0].properties.pits[0].hgid
+          }
+        } catch(e) {
+          Logger.log(e);
+          return { longitude: '', latitude: '', accuracy: '', id: 'error occurred' };
+        }
+      }
+      },  
+    mapquest: {
       query: function(query, key) {
         return 'http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + query;
       },
       parse: function(r) {
         try {
           return {
-            longitude: r[0].lon,
-            latitude: r[0].lat,
-            accuracy: r[0].type,
-            id: r[0].place_id
+            longitude: r[0].lon.toString(),
+            latitude: r[0].lat.toString(),
+            accuracy: r[0].osm_type,
+            id: 'http://openstreetmap.org/' + r[0].osm_type + '/' + r[0].osm_id
           }
         } catch(e) {
           return { longitude: '', latitude: '', accuracy: '', id: '' };
@@ -231,7 +255,8 @@ function gcDialog() {
   grid.setWidget(0, 1, app.createListBox()
     .setName('apiBox')
     .setId('apiBox')
-    .addItem('nominatim')
+    .addItem('histograph')
+    .addItem('mapquest')
     .addItem('yahoo')
     .addItem('cicero'));
   grid.setWidget(1, 0, app.createLabel('API key:'));
