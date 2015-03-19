@@ -1,24 +1,20 @@
-# Geo for Google Docs
+# Geo for Google Sheets
 
-Geo for Google Docs is a set of tools that make it easy to use data from
-Google Docs Spreadsheets in [TileMill](http://tilemill.com), an open source
-map design studio.
+Geo for Google Sheets is a tool that allows you to geocode places and addresses in Google Sheets. By geocoding, you provide your sheet with an extra set of fields, in which the latitude, longitude, the place type and the place identifier are stored. Geo for Google Sheets is forked from [https://github.com/mapbox/geo-googledocs/](https://github.com/mapbox/geo-googledocs/), we owe a great deal of thanks to them for sharing their code with us.
 
 ## Uses
 
-- **Export spreadsheet data to [GeoJSON](http://geojson.org/)**
-  Any spreadsheet with geocodes (longitude and latitude
-  coordinates) can be exported to a TileMill-ready
-  file. After exporting, just copy the GeoJSON file to your
-  `TileMill/files/data` directory. 
 - **Geocode arbitrary addresses** If your spreadsheet does not have
-  geocodes, you can add them using a geocoding service like those provided by
-  [Yahoo PlaceFinder](http://developer.yahoo.com/geo/placefinder/) or [MapQuest Nominatim](http://developer.mapquest.com/web/products/open/nominatim) or [Cicero API](https://cicero.azavea.com/docs/). 
-  Consult these services for their terms of use.
+  coordinates, you can add them using a geocoding service like those provided by
+  [Yahoo PlaceFinder](http://developer.yahoo.com/geo/placefinder/) or [OpenStreetMap Nominatim](http://nominatim.openstreetmap.org) or [Cicero API](https://cicero.azavea.com/docs/). 
+  Consult these services for their terms of use. It also providides a method to supply historical place and street geocoding, through the [Histograph](http://histograph.io) [service](http://api.histograph.io).
+- **Export spreadsheet data to [GeoJSON](http://geojson.org/)**
+  Any geocoded spreadsheet (longitude and latitude
+  coordinates) can be exported to [GeoJSON](http://geojson.org). GeoJSON is a powerful and flexible interoperability format for use in [QGIS](http://qgis.org), for example.
 
 ## Installation
 
-- Copy the [source of mapbox.js](https://raw.github.com/mapbox/geo-googledocs/master/MapBox.js)
+- Copy the [source code](https://raw.githubusercontent.com/erfgoed-en-locatie/geo-googledocs/master/spreadsheet-geocode.js)
 - Open your spreadsheet and goto `tools` > `script editor`
 - Replace the content in the text box with the copied source from mapbox.js
 - Set the name of this script to `geo`
@@ -29,6 +25,7 @@ map design studio.
 
 * Dave Cole [[dhcole](https://github.com/dhcole)]
 * Tom MacWright [[tmcw](https://github.com/tmcw)]
+* Rein van 't Veer [[reinvantveer](https://github.com/reinvantveer)]
 
 ------
 
