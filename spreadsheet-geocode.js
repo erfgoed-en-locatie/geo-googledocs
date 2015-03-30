@@ -91,8 +91,11 @@ var geocoders = {
 // Add menu for Geo functions
 function onOpen() {
   ss.addMenu('Geo', [{
-      name: 'Geocode Addresses',
-      functionName: 'gcDialog'
+    name: 'Geocode Addresses',
+    functionName: 'gcDialog'
+  }, {
+    name: 'Draw geometry',
+    functionName: 'dgDialog'
   }, {
       name: 'Export GeoJSON',
       functionName: 'gjDialog'
@@ -100,6 +103,14 @@ function onOpen() {
       name: 'Help',
       functionName: 'helpSite'
   }]);
+}
+
+// UI to set up Leaflet draw widget
+function dgDialog() {
+  var html = HtmlService.createHtmlOutputFromFile('leaflet-widget')
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME);
+  //SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
+  SpreadsheetApp.getActive().show(html);
 }
 
 // UI to set up GeoJSON export
