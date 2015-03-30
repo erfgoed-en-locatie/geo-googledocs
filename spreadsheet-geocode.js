@@ -2,8 +2,9 @@
  * Google sheets app for geocoding places
  * Based on https://github.com/mapbox/geo-googledocs/
  * But altered to include Histograph to geocode historic places
+ *  Google sheets code for geocoding arbitrary places and adresses
  */
-
+  
 // Global variables
 var ss = SpreadsheetApp.getActiveSpreadsheet(),
     sheet = ss.getActiveSheet(),
