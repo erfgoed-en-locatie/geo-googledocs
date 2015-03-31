@@ -7,16 +7,22 @@ Geo for Google Sheets is a tool that allows you to geocode places and addresses 
 - **Geocode arbitrary addresses** If your spreadsheet does not have
   coordinates, you can add them using a geocoding service like those provided by
   [OpenStreetMap Nominatim](http://nominatim.openstreetmap.org). It also providides a method to supply historical place and street geocoding, through the [Histograph](http://histograph.io) [service](http://api.histograph.io).
+- **Draw custom geometries** If geocoding doesn't do the trick for you, or you want more complex geometries, there is a menu option that allows you to draw your own geometry. Pick anything from point, polyline or polygon.
 - **Export spreadsheet data to [GeoJSON](http://geojson.org/)**
   Any geocoded spreadsheet (longitude and latitude
   coordinates) can be exported to [GeoJSON](http://geojson.org). GeoJSON is a powerful and flexible interoperability format for use in [QGIS](http://qgis.org), for example.
 
 ## Installation
 
-- Copy the [source code](https://raw.githubusercontent.com/erfgoed-en-locatie/geo-googledocs/master/spreadsheet-geocode.js)
+- Copy the [script source code](https://raw.githubusercontent.com/erfgoed-en-locatie/geo-googledocs/master/spreadsheet-geocode.js)
 - Open your spreadsheet and goto `tools` > `script editor`
 - Replace the content in the text box with the copied source
 - Set the name of this script to `geo`
+- Go to `file` > `save` and close the popup window
+- Go to `file` > `new` > `HTML` 
+- Copy the contents of the [widget script](https://raw.githubusercontent.com/erfgoed-en-locatie/geo-googledocs/master/leaflet-widget.html)
+- Replace the contents of the new HTML file with the copied contents
+- Set the name of this script to `leaflet-widget.html`
 - Go to `file` > `save` and close the popup window
 - Refresh your spreadsheet and you will see a new menu called `Geo` added after `Help` on the menu bar
 
