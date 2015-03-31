@@ -2,7 +2,7 @@
  * Google sheets app for geocoding places
  * Based on https://github.com/mapbox/geo-googledocs/
  * But altered to include Histograph to geocode historic places
- *  Google sheets code for geocoding arbitrary places and adresses
+ * and to create custom geometries using a map widget
  */
   
 // Global variables
@@ -107,8 +107,10 @@ function onOpen() {
 
 // UI to set up Leaflet draw widget
 function dgDialog() {
-  var html = HtmlService.createHtmlOutputFromFile('leaflet-widget')
-      .setSandboxMode(HtmlService.SandboxMode.IFRAME);
+  var html = HtmlService.createHtmlOutputFromFile('test')
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .setWidth(600)
+      .setHeight(500);
   //SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
   SpreadsheetApp.getActive().show(html);
 }
