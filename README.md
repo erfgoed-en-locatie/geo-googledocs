@@ -6,8 +6,7 @@ Geo for Google Sheets is a tool that allows you to geocode places and addresses 
 
 - **Geocode arbitrary addresses** If your spreadsheet does not have
   coordinates, you can add them using a geocoding service like those provided by
-  [OpenStreetMap Nominatim](http://nominatim.openstreetmap.org) or [Cicero API](https://cicero.azavea.com/docs/). 
-  Consult these services for their terms of use. It also providides a method to supply historical place and street geocoding, through the [Histograph](http://histograph.io) [service](http://api.histograph.io).
+  [OpenStreetMap Nominatim](http://nominatim.openstreetmap.org). It also providides a method to supply historical place and street geocoding, through the [Histograph](http://histograph.io) [service](http://api.histograph.io).
 - **Export spreadsheet data to [GeoJSON](http://geojson.org/)**
   Any geocoded spreadsheet (longitude and latitude
   coordinates) can be exported to [GeoJSON](http://geojson.org). GeoJSON is a powerful and flexible interoperability format for use in [QGIS](http://qgis.org), for example.
