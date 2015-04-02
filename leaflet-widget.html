@@ -78,10 +78,14 @@ map.on('draw:created', function (e) {
     document.getElementById("textfield").value = wellknown.stringify(feature);
 });
 
+function saveClose() {
+  google.script.run.setFromHTML(document.getElementById("textfield").value);
+  google.script.host.close();
+}
 
 </script>
 </div>
 <br>
-<input type="button" value="Save to spreadsheet" onclick="google.script.host.close()" />
+<input type="button" value="Save to spreadsheet" onclick="saveClose();" />
 <textarea id="textfield">Draw your geometry</textarea>
 </html>
