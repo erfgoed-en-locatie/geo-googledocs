@@ -107,10 +107,10 @@ function onOpen() {
 
 // UI to set up Leaflet draw widget
 function dgDialog() {
-  var html = HtmlService.createHtmlOutputFromFile('test')
+  var html = HtmlService.createHtmlOutputFromFile('leaflet-widget')
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
       .setWidth(600)
-      .setHeight(500);
+      .setHeight(520);
   //SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
   SpreadsheetApp.getActive().show(html);
 }
