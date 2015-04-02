@@ -12,20 +12,20 @@ var ss = SpreadsheetApp.getActiveSpreadsheet(),
     settings = {};
     
 var geocoders = {
-    yahoo: {
+    OpenStreetMap: {
       query: function(query, key) {
-        return 'http://where.yahooapis.com/geocode?appid=' +
-          key + '&flags=JC&q=' + query;
+        return 'http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + query;
       },
       parse: function(r) {
         try {
           return {
-            longitude: r.ResultSet.Results[0].longitude,
-            latitude: r.ResultSet.Results[0].latitude,
-            accuracy: r.ResultSet.Results[0].quality
+            longitude: r[0].lon.toString(),
+            latitude: r[0].lat.toString(),
+            accuracy: r[0].osm_type,
+            id: 'http://openstreetmap.org/' + r[0].osm_type + '/' + r[0].osm_id
           }
         } catch(e) {
-          return { longitude: '', latitude: '', accuracy: '' };
+          return { longitude: '', latitude: '', accuracy: '', id: '' };
         }
       }
     },
@@ -44,40 +44,6 @@ var geocoders = {
         } catch(e) {
           Logger.log(e);
           return { longitude: '', latitude: '', accuracy: '', id: 'error occurred' };
-        }
-      }
-      },  
-    mapquest: {
-      query: function(query, key) {
-        return 'http://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + query;
-      },
-      parse: function(r) {
-        try {
-          return {
-            longitude: r[0].lon.toString(),
-            latitude: r[0].lat.toString(),
-            accuracy: r[0].osm_type,
-            id: 'http://openstreetmap.org/' + r[0].osm_type + '/' + r[0].osm_id
-          }
-        } catch(e) {
-          return { longitude: '', latitude: '', accuracy: '', id: '' };
-        }
-      }
-    },
-    cicero: {
-      query: function(query, key) {
-        return 'https://cicero.azavea.com/v3.1/legislative_district?format=json&key=' + 
-          key + '&search_loc=' + query; 
-      },
-      parse: function(r) {
-        try {
-          return {
-            longitude: r.response.results.candidates[0].x,
-            latitude: r.response.results.candidates[0].y,
-            accuracy: r.response.results.candidates[0].score
-          }
-        } catch(e) {
-          return { longitude: '', latitude: '', accuracy: '' };
         }
       }
     }
@@ -269,10 +235,9 @@ function gcDialog() {
   grid.setWidget(0, 1, app.createListBox()
     .setName('apiBox')
     .setId('apiBox')
+    .addItem('OpenStreetMap')
     .addItem('histograph')
-    .addItem('mapquest')
-    .addItem('yahoo')
-    .addItem('cicero'));
+  );
   grid.setWidget(1, 0, app.createLabel('API key:'));
   grid.setWidget(1, 1, app.createTextBox().setName('keyBox').setId('keyBox'));
 
@@ -560,4 +525,14 @@ function cleanCamel(str) {
          .replace(/\s/g, '')
          .replace(/[^\w]/g, '')
          .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
+}
+
+function setFromHTML(passedValue) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet(),
+      sheet = ss.getActiveSheet(),
+      activeRange = ss.getActiveRange();
+
+  Logger.log(passedValue);
+  Logger.log(JSON.stringify(sheet.getActiveCell()));
+  sheet.getActiveCell().setValue(passedValue);
 }
